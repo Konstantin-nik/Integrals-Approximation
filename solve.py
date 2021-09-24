@@ -2,6 +2,8 @@ from tkinter import Tk, Label, Button, Entry, Frame
 import math
 
 size_modifier = 0.5
+
+
  
 def toFixed(numObj, digits=0):
     return f"{numObj:.{digits}f}"
