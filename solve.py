@@ -3,7 +3,7 @@ from tkinter.ttk import Combobox
 import math
 
 size_modifier = 0.5
-method_names = ["Middle Rect", "Left Rect", "Right Rect"]
+method_names = ["Middle Rect", "Left Rect", "Right Rect", "Simpson"]
 
 
 def toFixed(numObj, digits=0):
@@ -14,7 +14,7 @@ def toFixed(numObj, digits=0):
 #eps = float(eval(input('Введите eps = ')))
 
 def f(x):
-	return math.sin(x)
+	return math.exp(x)
 
 def fEnter(fStr, x):
 	if (fStr == 'f'): 
@@ -39,13 +39,24 @@ def rightRect(A, h, N, funcF, fStr):
 	for i in range(0, N):
 		ans += funcF(fStr, A + h + h*i)
 	return ans*h
+    
+def fSimpson(A, h, N, funcF, fStr):
+	ans = 0
+	for i in range(0, N):
+		ans += funcF(fStr, (A + h*i)) + 4*funcF(fStr,(A + h/2 + h*i)) + funcF(fStr,(A + h + h*i))
+	return ans*h/6
 
 
-methods = {'Middle Rect':[middleRect, 2], 'Left Rect':[leftRect, 1], 'Right Rect':[rightRect, 1]}
+methods = {
+    'Middle Rect':[middleRect, 2], 
+    'Left Rect':[leftRect, 1], 
+    'Right Rect':[rightRect, 1],
+    'Simpson':[fSimpson, 3]
+    }
 
 
 def getR(q1, q2,  m):
-	return (q2 - q1)/(1-1/pow(2, m))
+	return (q2 - q1)/(1-1/pow(2, m+1))
 
 def getIntegral(A, B, Eps, methFunct, funcF, fStr):
     h1 = B - A
