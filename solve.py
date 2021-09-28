@@ -3,7 +3,7 @@ from tkinter.ttk import Combobox
 import math
 
 size_modifier = 0.5
-method_names = ["Middle Rect", "Left Rect", "Right Rect", "Simpson"]
+method_names = ["Middle Rect", "Left Rect", "Right Rect", "Trapeze", "Simpson"]
 
 
 def toFixed(numObj, digits=0):
@@ -43,20 +43,27 @@ def rightRect(A, h, N, funcF, fStr):
 def fSimpson(A, h, N, funcF, fStr):
 	ans = 0
 	for i in range(0, N):
+		ans += funcF(fStr, (A + h*i)) + funcF(fStr,(A + h + h*i))
+	return ans*h/6
+    
+def fTrapeze(A, h, N, funcF, fStr):
+	ans = 0
+	for i in range(0, N):
 		ans += funcF(fStr, (A + h*i)) + 4*funcF(fStr,(A + h/2 + h*i)) + funcF(fStr,(A + h + h*i))
 	return ans*h/6
 
+def getR(q1, q2,  m):
+	return (q2 - q1)/(1-1/pow(2, m+1))
 
 methods = {
-    'Middle Rect':[middleRect, 2], 
+    'Middle Rect':[middleRect, 1], 
     'Left Rect':[leftRect, 1], 
     'Right Rect':[rightRect, 1],
-    'Simpson':[fSimpson, 3]
+    'Simpson':[fSimpson, 3],
+    'Trapeze':[fTrapeze, 1]
     }
 
 
-def getR(q1, q2,  m):
-	return (q2 - q1)/(1-1/pow(2, m+1))
 
 def getIntegral(A, B, Eps, methFunct, funcF, fStr):
     h1 = B - A
